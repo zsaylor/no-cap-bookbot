@@ -1,7 +1,7 @@
 import streamlit as st
-import stats
-import extract_book_text
-import no_cap
+from src import stats
+from src import extract
+from src import nocap
 
 # Streamlit page configuration
 st.set_page_config(
@@ -49,6 +49,7 @@ def main():
     col1, col2 = st.columns([1, 1])
 
     # TODO: figure out suitable upload size limit
+    # Upload/text box section
     with col1:
         st.header("📤 Upload Your Book")
         uploaded_file = st.file_uploader(
@@ -57,7 +58,6 @@ def main():
             help="Upload an .epub, .pdf, or .txt file of any book you want analyzed!"
         )
 
-        # Text area for manual input or sample
         book_text = ""
         if selected_sample != "Choose a sample...":
             book_text = sample_books[selected_sample]
@@ -69,13 +69,13 @@ def main():
             help="Paste some bussin book text here or use a fire sample from the sidebar."
         )
 
+    # Analysis section
     with col2:
         st.header("📊 Analysis Results")
 
-        # Get text from upload or text box
         final_text = ""
         if uploaded_file is not None:
-            uploaded_text = extract_book_text.extract_text_from_upload(uploaded_file)
+            uploaded_text = extract.extract_text_from_upload(uploaded_file)
             if uploaded_text:
                 final_text = uploaded_text
                 st.success(f"✅ File uploaded! GG! ({len(uploaded_text.split())} words)")
@@ -84,7 +84,6 @@ def main():
         elif book_text.strip():
             final_text = book_text
 
-        # Analyze
         if st.button("🚀 Analyze This Book", type="primary"):
             if not final_text.strip():
                 st.error("❌ Sus... Please upload a file or paste some text first, bestie!")
@@ -94,7 +93,7 @@ def main():
                 with st.spinner("Say less, let me cook... 👨🏻‍🍳🔥"):
 
                     # Summary section
-                    genz_summary = no_cap.get_genz_summary(final_text, api_key)
+                    genz_summary = nocap.get_genz_summary(final_text, api_key)
                     st.success("✨ Analysis complete! Here's the tea:")
                     st.subheader("🎭 Gen Z Summary")
                     st.markdown(f"*{genz_summary}*")
@@ -114,7 +113,8 @@ def main():
                         st.metric("📚 Estimated Reading Time", f"{word_count // 200} minutes")
                         st.metric("📄 Estimated Pages", f"{word_count // 250}")
 
-                    # Character frequency
+                    # TODO: change to whole word instead of char
+                    # Character frequency section
                     st.subheader("🔤 Most Common Letters")
                     st.markdown(stats.format_char_count(char_count_list))
 
