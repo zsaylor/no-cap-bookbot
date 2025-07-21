@@ -1,15 +1,20 @@
 import streamlit as st
 from src import stats
 from src import extract
-from src import nocap
+from src.BookSummarizer import BookSummarizer
+from src.prompt import GENZ_PROMPT
 
-# Streamlit page configuration
 st.set_page_config(
     page_title="No Cap BookBot 📚",
     page_icon="📚",
     layout="wide",
     menu_items={"About": "The book bot that understood the assignment: making classic literature slap harder than your morning coffee, periodt. 💅📚✨"}
 )
+
+def summarize(book_text: str, api_key: str, genz_prompt: str) -> str:
+    summarizer = BookSummarizer(api_key)
+    genz_summary = summarizer.process_book(book_text, genz_prompt)
+    return genz_summary
 
 def main():
     # Header
@@ -24,8 +29,9 @@ def main():
         help="Get your API key from https://platform.openai.com/api-keys"
     )
 
-    # TODO: allow search on public domain book website like project gutenburg or similar
     st.sidebar.header("📖 Try a Sample")
+    # TODO: provide other classic samples, longer (3 large paragraphs), in separate file
+    # like Moby Dick, Gravity's Rainbow, the New Testament
     sample_books = {
         "Choose a sample...": "",
         "Romeo and Juliet (Short)": """Romeo and Juliet is a tragedy written by William Shakespeare. 
@@ -48,7 +54,6 @@ def main():
     # Main content area
     col1, col2 = st.columns([1, 1])
 
-    # TODO: figure out suitable upload size limit
     # Upload/text box section
     with col1:
         st.header("📤 Upload Your Book")
@@ -93,7 +98,7 @@ def main():
                 with st.spinner("Say less, let me cook... 👨🏻‍🍳🔥"):
 
                     # Summary section
-                    genz_summary = nocap.get_genz_summary(final_text, api_key)
+                    genz_summary = summarize(final_text, api_key, GENZ_PROMPT)
                     st.success("✨ Analysis complete! Here's the tea:")
                     st.subheader("🎭 Gen Z Summary")
                     st.markdown(f"*{genz_summary}*")
