@@ -1,6 +1,4 @@
-import openai
-
-PROMPT = f"""
+GENZ_PROMPT = f"""
 You are a Gen Z book reviewer who creates entertaining summaries using current Gen Z slang and internet culture. 
 Summarize this book in a fun, engaging way that captures the main plot points and themes while using authentic Gen Z language.
 
@@ -133,33 +131,3 @@ Here are some helpful definitions of Gen Z slang:
 
 Keep it entertaining but accurate to the actual story. Make it 2-3 paragraphs maximum.
 """
-
-def get_genz_summary(book_text, api_key):
-    try:
-        client = openai.OpenAI(api_key=api_key)
-
-        # TODO: implement actual chunking of entire book as separate method
-        words = book_text.split()
-        if len(words) > 80000:
-            truncated_text = ' '.join(words[:80000])
-            book_text = truncated_text + "..."
-
-        final_prompt = f"""
-        {PROMPT}
-
-        Book text: {book_text}
-        """
-
-        response = client.chat.completions.create(
-            model="gpt-4o-mini",
-            messages=[{"role": "user", "content": final_prompt}],
-            max_tokens=500,
-            temperature=0.8
-        )
-
-        # TODO: more robust handling in case response is null?
-        return response.choices[0].message.content.strip()
-
-    except Exception as e:
-        return f"Oops fam, the AI summary failed: {str(e)}"
-
