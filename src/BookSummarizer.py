@@ -4,9 +4,9 @@ from typing import List
 class BookSummarizer:
     def __init__(self, api_key: str):
         self.client = openai.OpenAI(api_key=api_key)
-        self.chunk_size = 15000
-        self.overlap_size = 2000
-        self.max_tokens_per_chunk = 3000
+        self.chunk_size = 20000
+        self.overlap_size = 1000
+        self.max_output_tokens_per_chunk = 1000
         self.final_summary_max_tokens = 500
 
     def model_response(self, prompt: str, max_tokens: int, temperature: float) -> str:
@@ -25,27 +25,20 @@ class BookSummarizer:
 
     def create_chunks(self, text: str) -> List[str]:
         words = text.split()
-        chunks = []
-
         if len(words) <= self.chunk_size:
             return [text]
 
+        chunks = []
         start = 0
         while start < len(words):
-
             end = min(start + self.chunk_size, len(words))
-
-            chunk_words = words[start:end]
-            chunk_text = ' '.join(chunk_words)
+            chunk_text = ' '.join(words[start:end])
             chunks.append(chunk_text)
 
             if end >= len(words):
                 break
 
-            start = start + self.chunk_size - self.overlap_size
-
-            if start <= chunks.__len__() * (self.chunk_size - self.overlap_size):
-                start = max(start, end - self.overlap_size)
+            start += self.chunk_size - self.overlap_size
 
         return chunks
 
@@ -60,6 +53,7 @@ class BookSummarizer:
 
         chunk_prompt = f"""
         {position_context} Provide a detailed summary of this section of the book. 
+
         Focus on:
         - Key plot points and story developments
         - Important character introductions, developments, or changes
@@ -73,7 +67,7 @@ class BookSummarizer:
         {chunk}
         """
 
-        return self.model_response(chunk_prompt, self.max_tokens_per_chunk, 0.3)
+        return self.model_response(chunk_prompt, self.max_output_tokens_per_chunk, 0.3)
 
     def create_master_summary(self, chunk_summaries: List[str]) -> str:
         combined_summaries = "\n\n".join([f"Section {i+1}: {summary}" for i, summary in enumerate(chunk_summaries)])
