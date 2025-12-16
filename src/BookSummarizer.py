@@ -4,7 +4,7 @@ from typing import List
 class BookSummarizer:
     def __init__(self, api_key: str):
         self.client = openai.OpenAI(api_key=api_key)
-        self.chunk_size = 20000
+        self.chunk_size = 100000
         self.overlap_size = 1000
         self.max_output_tokens_per_chunk = 1000
         self.final_summary_max_tokens = 500
@@ -22,12 +22,7 @@ class BookSummarizer:
         except Exception as e:
             return f"Oops fam, the AI summary failed: {str(e)}"
 
-
-    def create_chunks(self, text: str) -> List[str]:
-        words = text.split()
-        if len(words) <= self.chunk_size:
-            return [text]
-
+    def create_chunks(self, words: List[str]) -> List[str]:
         chunks = []
         start = 0
         while start < len(words):
@@ -61,7 +56,7 @@ class BookSummarizer:
         - Setting details if relevant
         - Any resolution or cliffhangers
 
-        Keep the summary comprehensive but concise (around 150-200 words).
+        Keep the summary comprehensive but concise.
 
         Text section:
         {chunk}
@@ -84,7 +79,7 @@ class BookSummarizer:
         - How the story resolves
         - The book's main message or takeaway
 
-        Make it flow as one coherent narrative summary (300-400 words).
+        Make it flow as one coherent narrative summary.
 
         Section summaries:
         {combined_summaries}
@@ -110,10 +105,11 @@ class BookSummarizer:
         return self.model_response(final_prompt, 500, 0.8)
 
     def process_book(self, book_text: str, genz_prompt: str) -> str:
-        if len(book_text.split()) <= 3000:
+        words = book_text.split()
+        if len(words) <= self.chunk_size:
             return self.get_genz_summary_simple(book_text, genz_prompt)
 
-        chunks = self.create_chunks(book_text)
+        chunks = self.create_chunks(words)
         chunk_summaries = []
         for i, chunk in enumerate(chunks, 1):
             chunk_summary = self.summarize_chunk(chunk, i, len(chunks))

@@ -1,8 +1,9 @@
 import streamlit as st
-from src import stats
-from src import extract
+import src.stats as stats
+import src.extract as extract
 from src.BookSummarizer import BookSummarizer
 from src.prompt import GENZ_PROMPT
+from src.sample_books import sample_books
 
 st.set_page_config(
     page_title="No Cap BookBot 📚",
@@ -13,8 +14,7 @@ st.set_page_config(
 
 def summarize(book_text: str, api_key: str, genz_prompt: str) -> str:
     summarizer = BookSummarizer(api_key)
-    genz_summary = summarizer.process_book(book_text, genz_prompt)
-    return genz_summary
+    return summarizer.process_book(book_text, genz_prompt)
 
 def main():
     # Header
@@ -30,25 +30,6 @@ def main():
     )
 
     st.sidebar.header("📖 Try a Sample")
-    # TODO: provide other classic samples, longer (3 large paragraphs), in separate file
-    # like Moby Dick, Gravity's Rainbow, the New Testament
-    sample_books = {
-        "Choose a sample...": "",
-        "Romeo and Juliet (Short)": """Romeo and Juliet is a tragedy written by William Shakespeare. 
-        Two young star-crossed lovers whose deaths ultimately reconcile their feuding families. 
-        Romeo Montague and Juliet Capulet fall in love at first sight at a Capulet party. 
-        They secretly marry the next day. Romeo kills Juliet's cousin Tybalt in a duel and is banished. 
-        Juliet's parents arrange her marriage to Paris. To avoid this, she takes a potion to fake her death. 
-        Romeo, believing she is truly dead, drinks poison. Juliet awakens, finds Romeo dead, and kills herself with his dagger.""",
-
-        "The Great Gatsby (Short)": """The Great Gatsby by F. Scott Fitzgerald is set in 1922. 
-        Nick Carraway moves to West Egg and becomes neighbors with the mysterious Jay Gatsby. 
-        Gatsby throws lavish parties hoping to attract Daisy Buchanan, his lost love who is now married to Tom. 
-        Gatsby and Daisy have an affair. Tom is also having an affair with Myrtle Wilson. 
-        Daisy drives Gatsby's car and kills Myrtle in an accident. Myrtle's husband shoots Gatsby, thinking he was the driver. 
-        The novel explores themes of the American Dream, wealth, and moral decay in the Jazz Age."""
-    }
-
     selected_sample = st.sidebar.selectbox("Sample Books", list(sample_books.keys()))
 
     # Main content area
@@ -80,6 +61,7 @@ def main():
 
         final_text = ""
         if uploaded_file is not None:
+            # TODO: test upload of all types
             uploaded_text = extract.extract_text_from_upload(uploaded_file)
             if uploaded_text:
                 final_text = uploaded_text
@@ -105,23 +87,18 @@ def main():
 
                     # Stats section
                     word_count = stats.get_word_count(final_text)
-                    char_count = stats.get_char_count(final_text)
-                    char_count_list = stats.get_sorted_char_count(char_count)
                     st.subheader("📈 Basic Stats")
 
                     stats_col1, stats_col2 = st.columns(2)
                     with stats_col1:
                         st.metric("📝 Total Words", f"{word_count:,}")
-                        st.metric("🔤 Total Characters", f"{len(final_text):,}")
 
                     with stats_col2:
                         st.metric("📚 Estimated Reading Time", f"{word_count // 200} minutes")
-                        st.metric("📄 Estimated Pages", f"{word_count // 250}")
 
-                    # TODO: change to whole word instead of char
-                    # Character frequency section
-                    st.subheader("🔤 Most Common Letters")
-                    st.markdown(stats.format_char_count(char_count_list))
+                    # Word frequency section
+                    st.subheader("🔤 Most Common Words")
+                    st.markdown(stats.get_common_words(final_text))
 
                     # Share section
                     st.subheader("📱 Share This Banger Analysis")
