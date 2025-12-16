@@ -1,6 +1,6 @@
 # 📚 No Cap BookBot
 
-> *Book analysis that hits different, no cap fr fr*
+> _Book analysis that hits different, no cap fr fr_
 
 [![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/)
 [![Streamlit](https://img.shields.io/badge/Streamlit-FF4B4B?logo=Streamlit&logoColor=white)](https://streamlit.io)
@@ -45,23 +45,27 @@ Traditional book summaries are dry and boring. No Cap BookBot reimagines classic
 ### Installation
 
 1. **Clone the repository**
+
    ```bash
    git clone https://github.com/yourusername/no-cap-bookbot.git
    cd no-cap-bookbot
    ```
 
 2. **Create a virtual environment**
+
    ```bash
    python -m venv venv
    source venv/bin/activate  # On Windows: venv\Scripts\activate
    ```
 
 3. **Install dependencies**
+
    ```bash
    pip install -r requirements.txt
    ```
 
 4. **Run the application**
+
    ```bash
    streamlit run main.py
    ```
@@ -76,16 +80,19 @@ Traditional book summaries are dry and boring. No Cap BookBot reimagines classic
 ## 📖 Usage
 
 ### Option 1: Upload Your Own Book
+
 1. Click "Choose a file" and select an EPUB, PDF, or TXT file
 2. The app will automatically extract and display the text
 3. Click "🚀 Analyze This Book" to generate your summary
 
 ### Option 2: Try a Sample Book
+
 1. Select a book from the "Sample Books" dropdown in the sidebar
 2. The text will populate automatically
 3. Click "🚀 Analyze This Book" to see the Gen Z magic
 
 ### Option 3: Paste Text Directly
+
 1. Copy any book text you want analyzed
 2. Paste it into the text area
 3. Click "🚀 Analyze This Book" for instant results
@@ -95,18 +102,22 @@ Traditional book summaries are dry and boring. No Cap BookBot reimagines classic
 ## 🛠️ Tech Stack
 
 **Frontend & UI**
+
 - [Streamlit](https://streamlit.io) - Modern web app framework for data/ML applications
 
 **AI & NLP**
+
 - [OpenAI GPT-4o-mini](https://openai.com) - Advanced language model for summarization
 - Custom prompting system with comprehensive Gen Z slang dictionary
 
 **File Processing**
+
 - [EbookLib](https://github.com/aerkalov/ebooklib) - EPUB file parsing and text extraction
 - [PyMuPDF](https://pymupdf.readthedocs.io/) - High-performance PDF text extraction
 - [BeautifulSoup4](https://www.crummy.com/software/BeautifulSoup/) - HTML parsing and cleaning
 
 **Python Core**
+
 - Type hints for better code quality
 - Modular architecture with clear separation of concerns
 - Comprehensive docstrings following Google style
@@ -136,7 +147,8 @@ no-cap-bookbot/
 **Input:** Romeo and Juliet by William Shakespeare
 
 **Gen Z Summary:**
-> *"Okay so Romeo and Juliet is literally the most chaotic love story ever, no cap. These two teens from families that absolutely HATE each other meet at a party and it's giving main character energy immediately. They fall so hard they literally get married the next day (red flag much?). But then everything goes sideways when Romeo's bestie dies and Romeo catches a body in revenge, so now he's banished. Juliet's fam tries to force her into marrying some other guy, so she fakes her own death with this sus potion. The plan was lowkey genius but the message never reaches Romeo, and when he finds her 'dead' he literally unalives himself. Then Juliet wakes up, sees Romeo dead, and does the same thing. The families finally realize they're the problem but like... too late bestie. This story lives rent-free in my head as the ultimate example of when family drama goes too far, periodt."*
+
+> _"Okay so Romeo and Juliet is literally the most chaotic love story ever, no cap. These two teens from families that absolutely HATE each other meet at a party and it's giving main character energy immediately. They fall so hard they literally get married the next day (red flag much?). But then everything goes sideways when Romeo's bestie dies and Romeo catches a body in revenge, so now he's banished. Juliet's fam tries to force her into marrying some other guy, so she fakes her own death with this sus potion. The plan was lowkey genius but the message never reaches Romeo, and when he finds her 'dead' he literally unalives himself. Then Juliet wakes up, sees Romeo dead, and does the same thing. The families finally realize they're the problem but like... too late bestie. This story lives rent-free in my head as the ultimate example of when family drama goes too far, periodt."_
 
 ---
 
@@ -190,6 +202,7 @@ model="gpt-4o-mini"  # Change to "gpt-4" for higher quality
 ## 🤝 Contributing
 
 Contributions are welcome! This project is perfect for:
+
 - Adding support for more file formats (MOBI, AZW, etc.)
 - Implementing caching to reduce API costs
 - Creating additional summary styles (Shakespearean, Academic, etc.)
@@ -209,6 +222,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 **Zachary Saylor**
 
 This project demonstrates:
+
 - Full-stack web development with Python
 - AI/ML integration with modern LLMs
 - Multi-format file processing
@@ -234,10 +248,24 @@ Feel free to open an issue or reach out!
 
 ---
 
+## ☕ Support This Project
+
+If this project helped you or made you smile, consider buying me a coffee! Your support helps keep the caffeine flowing and the code improving.
+
+<div align="center">
+
+[![Buy Me A Coffee](https://img.shields.io/badge/Buy%20Me%20A%20Coffee-FFDD00?style=for-the-badge&logo=buy-me-a-coffee&logoColor=black)](https://buymeacoffee.com/zchrysaylor)
+
+**[buymeacoffee.com/zchrysaylor](https://buymeacoffee.com/zchrysaylor)**
+
+</div>
+
+---
+
 <div align="center">
 
 **Made with ❤️ and way too much caffeine**
 
-*This bot is absolutely sending me* ☕
+_This bot is absolutely sending me_ ☕
 
 </div>
