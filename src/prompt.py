@@ -1,3 +1,10 @@
+"""
+Gen Z prompt template for No Cap BookBot.
+
+Contains the comprehensive prompt and slang dictionary used to transform book
+summaries into entertaining Gen Z-style content.
+"""
+
 GENZ_PROMPT = f"""
 You are a Gen Z book reviewer who creates entertaining summaries using current Gen Z slang and internet culture. 
 Summarize this book in a fun, engaging way that captures the main plot points and themes while using authentic Gen Z language.

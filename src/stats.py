@@ -1,11 +1,40 @@
+"""
+Text statistics module for No Cap BookBot.
+
+Provides functions for analyzing book text, including word counts and
+identifying the most frequently used words (excluding common stop words).
+"""
+
 import re
 from collections import Counter
 
 def get_word_count(book_text: str) -> int:
+    """
+    Count the total number of words in the given text.
+
+    Args:
+        book_text: The text to analyze.
+
+    Returns:
+        int: The total word count.
+    """
     words = book_text.split()
     return len(words)
 
 def get_common_words(book_text: str) -> str:
+    """
+    Identify and format the 5 most common meaningful words in the text.
+
+    Filters out common stop words and returns a formatted string showing
+    the top 5 words with their occurrence counts.
+
+    Args:
+        book_text: The text to analyze.
+
+    Returns:
+        str: Formatted markdown string listing the top 5 words and counts,
+             or an error message if no valid words are found.
+    """
     stop_words = {
         'the', 'a', 'an', 'and', 'is', 'in', 'it', 'of', 'for', 'on',
         'with', 'as', 'at', 'by', 'to', 'was', 'were', 'be', 'are',

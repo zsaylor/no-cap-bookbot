@@ -1,3 +1,10 @@
+"""
+Sample book texts for No Cap BookBot.
+
+Provides a curated collection of classic literature excerpts and summaries
+for users to test the application without uploading their own files.
+"""
+
 sample_books = {
     "Choose a sample...": "",
 
